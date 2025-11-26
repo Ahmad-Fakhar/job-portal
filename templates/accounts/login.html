@@ -3,72 +3,417 @@
 
 {% block title %}Login - Job Portal{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Login Page Styling */
+    .login-wrapper {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        padding: 2rem 0;
+    }
+
+    .login-wrapper::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        top: -250px;
+        right: -250px;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .login-wrapper::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.05);
+        bottom: -200px;
+        left: -200px;
+        animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .login-card {
+        border-radius: 30px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
+        animation: fadeInUp 0.8s ease-out;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(20px);
+        position: relative;
+        z-index: 1;
+        border: none;
+    }
+
+    .login-card-body {
+        padding: 3rem;
+    }
+
+    .login-icon-wrapper {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .login-icon-wrapper i {
+        font-size: 3rem;
+        color: #fff;
+    }
+
+    .login-card h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
+    .login-card > p {
+        color: #6c757d;
+        margin-bottom: 2rem;
+    }
+
+    /* Form Styling */
+    .form-group {
+        margin-bottom: 1.5rem;
+        animation: slideIn 0.6s ease-out;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-label i {
+        color: #667eea;
+    }
+
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .form-control::placeholder {
+        color: #adb5bd;
+    }
+
+    /* Remember Me & Forgot Password */
+    .form-check {
+        margin-bottom: 0;
+    }
+
+    .form-check-input {
+        border-radius: 6px;
+        border: 2px solid #e9ecef;
+        width: 1.25rem;
+        height: 1.25rem;
+        cursor: pointer;
+    }
+
+    .form-check-input:checked {
+        background-color: #667eea;
+        border-color: #667eea;
+    }
+
+    .form-check-label {
+        margin-left: 0.5rem;
+        cursor: pointer;
+        color: #495057;
+    }
+
+    .forgot-password {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .forgot-password::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transition: width 0.3s ease;
+    }
+
+    .forgot-password:hover {
+        color: #764ba2;
+    }
+
+    .forgot-password:hover::after {
+        width: 100%;
+    }
+
+    /* Alert Styling */
+    .alert {
+        border-radius: 12px;
+        border: none;
+        animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+
+    /* Login Button */
+    .btn-login {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-login::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn-login:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+    }
+
+    .btn-login:hover::before {
+        left: 100%;
+    }
+
+    /* Divider */
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .divider span {
+        padding: 0 1rem;
+        color: #6c757d;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    /* Register Buttons */
+    .btn-register {
+        border: 2px solid #667eea;
+        color: #667eea;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        background: transparent;
+        margin: 0.25rem;
+    }
+
+    .btn-register:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-register.btn-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+    .btn-register.btn-secondary:hover {
+        background: #6c757d;
+        color: #fff;
+        border-color: #6c757d;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 576px) {
+        .login-card-body {
+            padding: 2rem 1.5rem;
+        }
+
+        .login-card h2 {
+            font-size: 1.75rem;
+        }
+
+        .login-icon-wrapper {
+            width: 80px;
+            height: 80px;
+        }
+
+        .login-icon-wrapper i {
+            font-size: 2.5rem;
+        }
+
+        .btn-register {
+            display: block;
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5 col-lg-4">
-            <div class="card shadow-lg border-0">
-                <div class="card-body p-5">
-                    <div class="text-center mb-4">
-                        <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
-                        <h2 class="fw-bold">Welcome Back</h2>
-                        <p class="text-muted">Sign in to continue to Job Portal</p>
-                    </div>
-
-                    <form method="post" novalidate>
-                        {% csrf_token %}
-
-                        <div class="mb-3">
-                            <label for="{{ form.username.id_for_label }}" class="form-label">
-                                <i class="fas fa-user me-1"></i> {{ form.username.label }}
-                            </label>
-                            {{ form.username }}
-                            {% if form.username.errors %}
-                                <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
-                            {% endif %}
+<div class="login-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
+                <div class="card login-card">
+                    <div class="card-body login-card-body text-center">
+                        <div class="login-icon-wrapper">
+                            <i class="fas fa-user-circle"></i>
                         </div>
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to continue to Job Portal</p>
 
-                        <div class="mb-3">
-                            <label for="{{ form.password.id_for_label }}" class="form-label">
-                                <i class="fas fa-lock me-1"></i> {{ form.password.label }}
-                            </label>
-                            {{ form.password }}
-                            {% if form.password.errors %}
-                                <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
-                            {% endif %}
-                        </div>
+                        <form method="post" novalidate>
+                            {% csrf_token %}
 
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="form-check">
-                                {{ form.remember_me }}
-                                <label class="form-check-label" for="{{ form.remember_me.id_for_label }}">
-                                    Remember me
+                            <div class="form-group text-start">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">
+                                    <i class="fas fa-user"></i>
+                                    <span>{{ form.username.label }}</span>
                                 </label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                                {% endif %}
                             </div>
-                            <a href="{% url 'password_reset' %}" class="text-decoration-none small">
-                                Forgot Password?
-                            </a>
+
+                            <div class="form-group text-start">
+                                <label for="{{ form.password.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock"></i>
+                                    <span>{{ form.password.label }}</span>
+                                </label>
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    {{ form.remember_me }}
+                                    <label class="form-check-label" for="{{ form.remember_me.id_for_label }}">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <a href="{% url 'password_reset' %}" class="forgot-password small">
+                                    Forgot Password?
+                                </a>
+                            </div>
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
+
+                            <button type="submit" class="btn btn-login w-100 mb-3">
+                                <i class="fas fa-sign-in-alt me-2"></i> Login
+                            </button>
+                        </form>
+
+                        <div class="divider">
+                            <span>OR</span>
                         </div>
 
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {{ form.non_field_errors }}
-                            </div>
-                        {% endif %}
-
-                        <button type="submit" class="btn btn-primary w-100 py-2 mb-3">
-                            <i class="fas fa-sign-in-alt me-2"></i> Login
-                        </button>
-                    </form>
-
-                    <hr class="my-4">
-
-                    <div class="text-center">
-                        <p class="mb-2 text-muted small">Don't have an account?</p>
-                        <a href="{% url 'jobseeker_register' %}" class="btn btn-outline-primary btn-sm me-2">
+                        <p class="mb-3 text-muted small">Don't have an account?</p>
+                        <a href="{% url 'jobseeker_register' %}" class="btn btn-register">
                             <i class="fas fa-user-plus me-1"></i> Register as Job Seeker
                         </a>
-                        <a href="{% url 'company_register' %}" class="btn btn-outline-secondary btn-sm">
+                        <a href="{% url 'company_register' %}" class="btn btn-register btn-secondary">
                             <i class="fas fa-building me-1"></i> Register as Company
                         </a>
                     </div>
@@ -77,17 +422,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    .card {
-        border-radius: 15px;
-    }
-    .btn {
-        border-radius: 8px;
-    }
-    .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-    }
-</style>
 {% endblock %}

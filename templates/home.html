@@ -3,85 +3,391 @@
 
 {% block title %}Home - Job Portal{% endblock %}
 
+{% block extra_css %}
+<style>
+/* HERO */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 125px 0 !important;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23fff" fill-opacity="0.07" d="M0,96 L48,112 C96,128,192,160,288,160 C384,160,480,128,576,122.7 C672,117,768,139,864,138.7 C960,139,1056,117,1152,101.3 C1248,85,1344,75,1392,69.3 L1440,64 L1440,320 L0,320 Z"></path></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: .9;
+}
+.hero-section h1 {
+    font-size: 2.7rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 2px 4px 16px rgba(102,126,234,.13);
+}
+.hero-section p.lead {
+    color: #f5f7fa;
+    font-size: 1.1rem;
+}
+
+/* WIDE SEARCH BAR */
+.job-search-form {
+    max-width: 950px;
+    margin: 0 auto;
+}
+.job-search-form .form-row {
+    display: flex;
+    gap: 0.8rem;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+.job-search-form .form-group {
+    flex: 1 1 240px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.job-search-form .form-label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #495057;
+    font-size: .96rem;
+}
+.job-search-form .form-control-lg, 
+.job-search-form .btn-search-lg {
+    border-radius: 15px;
+    padding: 0.93rem 1.3rem;
+    font-size: 1.12rem;
+    border: 2px solid #e9ecef;
+    transition: border-color 0.22s, box-shadow 0.18s;
+    height: 100%;
+}
+.job-search-form .form-control-lg:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.11rem rgba(102, 126, 234, 0.14);
+}
+.job-search-form .btn-search-lg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .20s, box-shadow .21s;
+    box-shadow: 0 2.5px 13px rgba(102,126,234,0.07);
+}
+.job-search-form .btn-search-lg:hover, 
+.job-search-form .btn-search-lg:focus {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    color: #fff;
+}
+@media (max-width: 991px) {
+    .job-search-form .form-row { flex-direction: column; gap: 0.8rem; }
+    .job-search-form .form-group { width: 100%; }
+}
+
+/* Stats Section */
+.stats-section {
+    padding: 54px 0 38px 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #ebe7fa 100%);
+}
+.stat-card {
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #ede8fc;
+    box-shadow: 0 1.5px 13px rgba(110, 98, 226, 0.06);
+    text-align: center;
+    padding: 2.1rem 1.1rem;
+    margin-bottom: 22px;
+    transition: box-shadow 0.21s, border-color 0.17s;
+}
+.stat-card:hover {
+    box-shadow: 0 7px 26px rgba(102,126,234,.13);
+    border-color: #cabefa;
+}
+.stat-icon {
+    font-size: 2.3rem;
+    color: #764ba2;
+    margin-bottom: 1.05rem;
+}
+.stat-number {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #393b91;
+}
+.stat-label {
+    font-weight: 500;
+    color: #9e9eb7;
+    font-size: 1.09rem;
+    margin-top: 3px;
+}
+
+/* Featured Jobs Grid */
+.featured-jobs-section { padding: 44px 0 20px 0; background: #fff;}
+.section-header { margin-bottom: 2.2rem; }
+.section-title { font-size: 1.68rem; color: #272b3a; font-weight: 800; }
+.section-subtitle { font-size: 1rem; color: #757f94; }
+/* Professional Job Card */
+.job-card {
+    border: 1px solid #e6e6ef;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(127,150,168,0.09);
+    padding: 1.65rem 1.2rem 1.2rem;
+    margin-bottom: 30px;
+    transition: box-shadow 0.22s, border-color 0.18s, transform 0.13s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.job-card:hover, .job-card:focus-within {
+    border-color: #b8a7e0;
+    box-shadow: 0 5px 32px rgba(111,87,219,0.10);
+    transform: translateY(-3px) scale(1.010);
+    z-index: 1;
+}
+.job-card h5 {
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #272b3a;
+    letter-spacing: -0.32px;
+}
+.job-info { margin-bottom: 15px; }
+.job-info p {
+    margin-bottom: 6px;
+    font-size: 0.97rem;
+    color: #6c7793;
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+}
+.job-info i { font-size: 1.07rem; min-width: 20px; opacity: 0.68; }
+.job-card .btn-primary {
+    border-radius: 10px;
+    padding: 0.6rem 1.1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    background: #667eea;
+    border: none;
+    color: #fff;
+    margin-top: auto;
+    box-shadow: 0 1.5px 6px rgba(102,126,234,0.08);
+    transition: background 0.13s, box-shadow 0.17s;
+}
+.job-card .btn-primary:hover,
+.job-card .btn-primary:focus {
+    background: #764ba2;
+    color: #fff;
+    box-shadow: 0 2.5px 13px rgba(118,75,162,0.16);
+    outline: none;
+}
+.btn-view-all {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 30px;
+    padding: 0.83rem 1.6rem;
+    font-weight: 700;
+    font-size: 1.08rem;
+    color: #fff;
+    box-shadow: 0 5px 18px rgba(102, 126, 234, 0.16);
+    transition: background 0.16s, box-shadow 0.19s;
+}
+.btn-view-all:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(118,75,162,0.15);
+}
+
+/* Empty state for no jobs */
+.empty-state {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: #7a7e8f;
+}
+.cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 62px 0 58px 0;
+    position: relative;
+    color: #fff;
+    overflow: hidden;
+}
+.cta-section .cta-icon {
+    background: rgba(255,255,255,0.13);
+    border-radius: 100px;
+    width: 60px; height: 60px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.1rem;
+    font-size: 1.7rem;
+}
+.cta-section h2 {
+    font-weight: 800;
+    font-size: 1.28rem;
+    margin-bottom: 1.2rem;
+}
+.cta-section p.lead {
+    font-size: 1.07rem;
+    margin-bottom: 1.1rem;
+}
+.cta-section .btn-light {
+    background: #fff;
+    color: #667eea;
+    border: none;
+    border-radius: 19px;
+    padding: 0.9rem 2.1rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 2.5px 13px rgba(102,126,234,0.10);
+    transition: all 0.17s;
+}
+.cta-section .btn-light:hover { color: #fff; background: #764ba2;}
+@media (max-width: 991px) {
+    .hero-section { padding: 50px 0 !important; }
+    .section-title { font-size: 1.17rem; }
+    .stats-section, .featured-jobs-section, .cta-section { padding-left: 0; padding-right: 0; }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section text-white text-center py-5">
+<!-- HERO -->
+<section class="hero-section text-white text-center">
+    <div class="container position-relative" style="z-index:2;">
+        <h1 class="mb-3">Find Your Dream Job</h1>
+        <p class="lead mb-4">Thousands of opportunities waiting for talented professionals like you</p>
+        <!-- WIDE SEARCH BAR -->
+        <form action="{% url 'job_list' %}" method="get" class="job-search-form card border-0 p-2 mx-auto">
+            <div class="card-body p-3 p-md-4">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="keyword" class="form-label">
+                            <i class="fas fa-briefcase me-1 text-primary"></i>
+                            Job Title or Keywords
+                        </label>
+                        <input type="text"
+                               name="keyword"
+                               id="keyword"
+                               class="form-control form-control-lg"
+                               placeholder="e.g. Security Guard, Manager">
+                    </div>
+                    <div class="form-group">
+                        <label for="location" class="form-label">
+                            <i class="fas fa-map-marker-alt me-1 text-danger"></i>
+                            Location
+                        </label>
+                        <input type="text"
+                               name="location"
+                               id="location"
+                               class="form-control form-control-lg"
+                               placeholder="e.g. New York, London">
+                    </div>
+                    <div class="form-group" style="flex:0 0 170px; min-width:140px;">
+                        <label class="form-label" style="opacity:0;height:1.66em;">Search</label>
+                        <button type="submit" class="btn btn-search-lg">
+                            <i class="fas fa-search me-1"></i>Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
     <div class="container">
-        <h1 class="display-4 fw-bold">Find Your Dream Job</h1>
-        <p class="lead">Thousands of jobs available in security industry</p>
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <form action="{% url 'job_list' %}" method="get" class="d-flex gap-2">
-                    <input type="text" name="keyword" class="form-control form-control-lg" placeholder="Job title or keywords">
-                    <input type="text" name="location" class="form-control form-control-lg" placeholder="Location">
-                    <button type="submit" class="btn btn-light btn-lg">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </form>
+        <div class="row g-4 align-items-stretch">
+            <div class="col-12 col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-icon"><i class="fas fa-briefcase"></i></div>
+                    <div class="stat-number">{{ total_jobs|default:"1200" }}</div>
+                    <div class="stat-label">Active Jobs</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-icon"><i class="fas fa-building"></i></div>
+                    <div class="stat-number">{{ total_companies|default:"300" }}</div>
+                    <div class="stat-label">Companies</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number">{{ total_users|default:"4300" }}</div>
+                    <div class="stat-label">Happy Candidates</div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Stats Section -->
-<section class="py-5 bg-light">
+<!-- FEATURED JOBS -->
+<section class="featured-jobs-section">
     <div class="container">
-        <div class="row text-center">
-            <div class="col-md-4">
-                <div class="stat-card">
-                    <h2 class="stat-number">{{ total_jobs }}</h2>
-                    <p class="text-muted">Active Jobs</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card">
-                    <h2 class="stat-number">{{ total_companies }}</h2>
-                    <p class="text-muted">Companies</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card">
-                    <h2 class="stat-number">1000+</h2>
-                    <p class="text-muted">Happy Candidates</p>
-                </div>
-            </div>
+        <div class="text-center section-header">
+            <h2 class="section-title">Featured Jobs</h2>
+            <div class="section-subtitle">Explore the best job opportunities available now</div>
         </div>
-    </div>
-</section>
-
-<!-- Featured Jobs -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="mb-4">Featured Jobs</h2>
         <div class="row">
             {% for job in featured_jobs %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="job-card">
+            <div class="col-12 col-md-6 col-lg-4 d-flex">
+                <div class="job-card w-100">
                     <h5>{{ job.title }}</h5>
-                    <p class="text-muted">
-                        <i class="fas fa-building"></i> {{ job.company.name }}<br>
-                        <i class="fas fa-map-marker-alt"></i> {{ job.city }}<br>
-                        <i class="fas fa-clock"></i> {{ job.employment_type }}
-                    </p>
-                    <a href="{% url 'job_detail' job.id %}" class="btn btn-primary btn-sm">View Details</a>
+                    <div class="job-info">
+                        <p>
+                            <i class="fas fa-building text-primary"></i>
+                            {{ job.company.name }}
+                        </p>
+                        <p>
+                            <i class="fas fa-map-marker-alt text-danger"></i>
+                            {{ job.city }}
+                        </p>
+                        <p>
+                            <i class="fas fa-clock text-success"></i>
+                            {{ job.employment_type }}
+                        </p>
+                    </div>
+                    <a href="{% url 'job_detail' job.id %}" class="btn btn-primary w-100">
+                        View Details <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
             {% empty %}
-            <p>No featured jobs available.</p>
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="fas fa-briefcase mb-4"></i>
+                    <h4>No featured jobs available at the moment.</h4>
+                </div>
+            </div>
             {% endfor %}
         </div>
+        {% if featured_jobs %}
         <div class="text-center mt-4">
-            <a href="{% url 'job_list' %}" class="btn btn-primary btn-lg">View All Jobs</a>
+            <a href="{% url 'job_list' %}" class="btn btn-view-all">
+                View All Jobs <i class="fas fa-arrow-right ms-2"></i>
+            </a>
         </div>
+        {% endif %}
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="py-5 bg-primary text-white text-center">
+<section class="cta-section text-center">
     <div class="container">
-        <h2>Are you an Employer?</h2>
-        <p class="lead">Post jobs and find the best candidates</p>
-        <a href="{% url 'company_register' %}" class="btn btn-light btn-lg">Post a Job</a>
+        <div class="cta-icon mb-3 mx-auto"><i class="fas fa-building"></i></div>
+        <h2 class="fw-bold">Are you an Employer?</h2>
+        <p class="lead mb-4">Post jobs and find the best candidates for your company</p>
+        <a href="{% url 'company_register' %}" class="btn btn-light btn-lg">
+            <i class="fas fa-plus-circle me-2"></i>Post a Job Now
+        </a>
     </div>
 </section>
 {% endblock %}

@@ -3,29 +3,367 @@
 
 {% block title %}About Us - Job Portal{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* About Page Styling */
+    
+    /* Hero Section */
+    .about-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 100px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+    }
+
+    .about-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        animation: fadeInDown 1s ease-out;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .about-hero p.lead {
+        font-size: 1.5rem;
+        animation: fadeInUp 1s ease-out 0.3s both;
+        opacity: 0.95;
+    }
+
+    .about-hero i {
+        animation: pulse 2s ease-in-out infinite;
+        filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+    }
+
+    /* Mission Section */
+    .mission-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .mission-section h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .mission-section p.lead {
+        font-size: 1.25rem;
+        line-height: 1.8;
+        color: #6c757d;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    /* Feature Cards */
+    .feature-card {
+        border-radius: 25px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeInUp 0.8s ease-out;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3) !important;
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+
+    .feature-card i {
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover i {
+        transform: scale(1.2) rotate(10deg);
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-card:nth-child(3) { animation-delay: 0.3s; }
+
+    /* Stats Section */
+    .stats-card {
+        padding: 2rem;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+    }
+
+    .stats-card i {
+        transition: transform 0.3s ease;
+    }
+
+    .stats-card:hover i {
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    .stats-card h3 {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stats-card:nth-child(1) { animation-delay: 0.1s; }
+    .stats-card:nth-child(2) { animation-delay: 0.2s; }
+    .stats-card:nth-child(3) { animation-delay: 0.3s; }
+    .stats-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* How It Works Section */
+    .step-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 800;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .step-item {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .step-item:nth-child(1) { animation-delay: 0.1s; }
+    .step-item:nth-child(2) { animation-delay: 0.2s; }
+    .step-item:nth-child(3) { animation-delay: 0.3s; }
+    .step-item:nth-child(4) { animation-delay: 0.4s; }
+
+    .step-item:hover .step-circle {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .step-circle.bg-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .step-circle.bg-success {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+    }
+
+    .step-circle.bg-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .step-circle.bg-warning {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 80px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,192C672,181,768,139,864,128C960,117,1056,139,1152,154.7C1248,171,1344,181,1392,186.7L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top;
+        background-size: cover;
+    }
+
+    .cta-section .btn-light {
+        background: #fff;
+        color: #667eea;
+        border: none;
+        border-radius: 50px;
+        padding: 1rem 3rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+
+    .cta-section .btn-light:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .about-hero {
+            padding: 60px 0;
+        }
+
+        .about-hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .about-hero p.lead {
+            font-size: 1.25rem;
+        }
+
+        .mission-section h2 {
+            font-size: 2rem;
+        }
+
+        .stats-card h3 {
+            font-size: 2.5rem;
+        }
+
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Counter Animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const counters = document.querySelectorAll('.stats-card h3');
+        const speed = 200;
+
+        counters.forEach(counter => {
+            const text = counter.innerText;
+            const target = parseInt(text.replace(/\D/g, ''));
+            
+            if (isNaN(target)) return;
+
+            const animate = () => {
+                const data = parseInt(counter.innerText.replace(/\D/g, '')) || 0;
+                const time = target / speed;
+                
+                if(data < target) {
+                    counter.innerText = Math.ceil(data + time);
+                    setTimeout(animate, 1);
+                } else {
+                    counter.innerText = text;
+                }
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        counter.innerText = '0';
+                        animate();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            observer.observe(counter.parentElement);
+        });
+    });
+</script>
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
-<section class="bg-primary text-white py-5">
-    <div class="container">
+<section class="about-hero text-white">
+    <div class="container position-relative">
         <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-3">About Job Portal</h1>
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h1 class="fw-bold mb-3">About Job Portal</h1>
                 <p class="lead">Connecting talented professionals with amazing opportunities since 2025.</p>
             </div>
             <div class="col-lg-6 text-center">
-                <i class="fas fa-briefcase fa-10x opacity-25"></i>
+                <i class="fas fa-briefcase" style="font-size: 10rem; opacity: 0.3;"></i>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Mission Section -->
-<section class="py-5">
+<section class="mission-section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center mb-5">
-                <h2 class="fw-bold mb-3">Our Mission</h2>
-                <p class="lead text-muted">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold">Our Mission</h2>
+                <p class="lead">
                     To bridge the gap between exceptional talent and outstanding companies,
                     creating meaningful career opportunities that transform lives and drive business success.
                 </p>
@@ -35,22 +373,22 @@
 </section>
 
 <!-- Features Section -->
-<section class="bg-light py-5">
+<section class="py-5 bg-light">
     <div class="container">
         <div class="row text-center mb-5">
             <div class="col-lg-12">
-                <h2 class="fw-bold mb-3">Why Choose Us?</h2>
-                <p class="text-muted">We're committed to making the job search and hiring process easier</p>
+                <h2 class="fw-bold mb-3" style="font-size: 2.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Why Choose Us?</h2>
+                <p class="text-muted lead">We're committed to making the job search and hiring process easier</p>
             </div>
         </div>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3">
-                            <i class="fas fa-search fa-3x text-primary"></i>
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fas fa-search fa-4x text-primary"></i>
                         </div>
-                        <h5 class="card-title fw-bold">Easy Job Search</h5>
+                        <h5 class="card-title fw-bold mb-3">Easy Job Search</h5>
                         <p class="card-text text-muted">
                             Advanced search filters to help you find the perfect job match quickly and efficiently.
                         </p>
@@ -58,12 +396,12 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3">
-                            <i class="fas fa-shield-alt fa-3x text-success"></i>
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fas fa-shield-alt fa-4x text-success"></i>
                         </div>
-                        <h5 class="card-title fw-bold">Verified Companies</h5>
+                        <h5 class="card-title fw-bold mb-3">Verified Companies</h5>
                         <p class="card-text text-muted">
                             All companies are thoroughly vetted and approved to ensure legitimacy and quality.
                         </p>
@@ -71,12 +409,12 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3">
-                            <i class="fas fa-rocket fa-3x text-danger"></i>
+                <div class="card h-100 border-0 shadow-sm feature-card">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fas fa-rocket fa-4x text-danger"></i>
                         </div>
-                        <h5 class="card-title fw-bold">Fast Applications</h5>
+                        <h5 class="card-title fw-bold mb-3">Fast Applications</h5>
                         <p class="card-text text-muted">
                             Apply to multiple jobs with a single click using your saved profile and resume.
                         </p>
@@ -92,31 +430,31 @@
     <div class="container">
         <div class="row text-center g-4">
             <div class="col-md-3">
-                <div class="p-4">
-                    <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
-                    <h3 class="fw-bold">{{ total_jobs|default:"1000+" }}</h3>
-                    <p class="text-muted">Active Jobs</p>
+                <div class="stats-card">
+                    <i class="fas fa-briefcase fa-4x text-primary mb-3"></i>
+                    <h3 class="fw-bold" data-target="{{ total_jobs|default:'1000' }}">0</h3>
+                    <p class="text-muted fw-semibold">Active Jobs</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="p-4">
-                    <i class="fas fa-building fa-3x text-success mb-3"></i>
-                    <h3 class="fw-bold">{{ total_companies|default:"250+" }}</h3>
-                    <p class="text-muted">Registered Companies</p>
+                <div class="stats-card">
+                    <i class="fas fa-building fa-4x text-success mb-3"></i>
+                    <h3 class="fw-bold" data-target="{{ total_companies|default:'250' }}">0</h3>
+                    <p class="text-muted fw-semibold">Registered Companies</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="p-4">
-                    <i class="fas fa-users fa-3x text-info mb-3"></i>
-                    <h3 class="fw-bold">{{ total_users|default:"5000+" }}</h3>
-                    <p class="text-muted">Job Seekers</p>
+                <div class="stats-card">
+                    <i class="fas fa-users fa-4x text-info mb-3"></i>
+                    <h3 class="fw-bold" data-target="{{ total_users|default:'5000' }}">0</h3>
+                    <p class="text-muted fw-semibold">Job Seekers</p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="p-4">
-                    <i class="fas fa-check-circle fa-3x text-warning mb-3"></i>
-                    <h3 class="fw-bold">{{ total_applications|default:"10,000+" }}</h3>
-                    <p class="text-muted">Applications Sent</p>
+                <div class="stats-card">
+                    <i class="fas fa-check-circle fa-4x text-warning mb-3"></i>
+                    <h3 class="fw-bold" data-target="{{ total_applications|default:'10000' }}">0</h3>
+                    <p class="text-muted fw-semibold">Applications Sent</p>
                 </div>
             </div>
         </div>
@@ -128,45 +466,45 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-12 text-center">
-                <h2 class="fw-bold mb-3">How It Works</h2>
-                <p class="text-muted">Getting started is easy</p>
+                <h2 class="fw-bold mb-3" style="font-size: 2.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">How It Works</h2>
+                <p class="text-muted lead">Getting started is easy</p>
             </div>
         </div>
         <div class="row g-4">
-            <div class="col-md-3">
+            <div class="col-md-3 step-item">
                 <div class="text-center">
-                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <span class="fs-4 fw-bold">1</span>
+                    <div class="step-circle bg-primary text-white mb-3">
+                        <span>1</span>
                     </div>
-                    <h5 class="fw-bold">Create Account</h5>
-                    <p class="text-muted small">Sign up as a job seeker or company in minutes</p>
+                    <h5 class="fw-bold mb-3">Create Account</h5>
+                    <p class="text-muted">Sign up as a job seeker or company in minutes</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 step-item">
                 <div class="text-center">
-                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <span class="fs-4 fw-bold">2</span>
+                    <div class="step-circle bg-success text-white mb-3">
+                        <span>2</span>
                     </div>
-                    <h5 class="fw-bold">Complete Profile</h5>
-                    <p class="text-muted small">Add your details, skills, and upload resume</p>
+                    <h5 class="fw-bold mb-3">Complete Profile</h5>
+                    <p class="text-muted">Add your details, skills, and upload resume</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 step-item">
                 <div class="text-center">
-                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <span class="fs-4 fw-bold">3</span>
+                    <div class="step-circle bg-info text-white mb-3">
+                        <span>3</span>
                     </div>
-                    <h5 class="fw-bold">Apply for Jobs</h5>
-                    <p class="text-muted small">Browse listings and apply with one click</p>
+                    <h5 class="fw-bold mb-3">Apply for Jobs</h5>
+                    <p class="text-muted">Browse listings and apply with one click</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 step-item">
                 <div class="text-center">
-                    <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <span class="fs-4 fw-bold">4</span>
+                    <div class="step-circle bg-warning text-white mb-3">
+                        <span>4</span>
                     </div>
-                    <h5 class="fw-bold">Get Hired</h5>
-                    <p class="text-muted small">Connect with employers and land your dream job</p>
+                    <h5 class="fw-bold mb-3">Get Hired</h5>
+                    <p class="text-muted">Connect with employers and land your dream job</p>
                 </div>
             </div>
         </div>
@@ -174,16 +512,16 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-5 bg-primary text-white">
-    <div class="container">
+<section class="cta-section text-white position-relative">
+    <div class="container position-relative">
         <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h2 class="fw-bold mb-2">Ready to Get Started?</h2>
-                <p class="mb-0">Join thousands of job seekers and companies already using our platform.</p>
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <h2 class="fw-bold mb-2" style="font-size: 2.5rem;">Ready to Get Started?</h2>
+                <p class="mb-0 fs-5">Join thousands of job seekers and companies already using our platform.</p>
             </div>
-            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+            <div class="col-lg-4 text-lg-end">
                 {% if not user.is_authenticated %}
-                    <a href="{% url 'jobseeker_register' %}" class="btn btn-light btn-lg me-2">
+                    <a href="{% url 'jobseeker_register' %}" class="btn btn-light btn-lg">
                         <i class="fas fa-user-plus me-2"></i> Sign Up Now
                     </a>
                 {% else %}

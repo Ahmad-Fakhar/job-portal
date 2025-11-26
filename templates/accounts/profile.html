@@ -2,59 +2,367 @@
 
 {% block title %}My Profile{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Job Seeker Profile Styling */
+    .jobseeker-profile-wrapper {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 3rem 0;
+    }
+
+    .jobseeker-profile-card {
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+        animation: fadeInUp 0.8s ease-out;
+        background: #fff;
+        border: none;
+    }
+
+    .jobseeker-profile-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    }
+
+    /* Sidebar Profile Card */
+    .jobseeker-sidebar {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: #fff;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .jobseeker-sidebar::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    .jobseeker-sidebar > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .jobseeker-avatar-wrapper {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 1.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 5px solid rgba(255,255,255,0.3);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jobseeker-avatar-wrapper:hover {
+        transform: scale(1.05) rotate(5deg);
+        border-color: rgba(255,255,255,0.5);
+    }
+
+    .jobseeker-avatar-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .jobseeker-avatar-wrapper i {
+        font-size: 5rem;
+        color: #4facfe;
+    }
+
+    .jobseeker-sidebar h5 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .jobseeker-sidebar .email {
+        font-size: 0.95rem;
+        opacity: 0.9;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-edit-jobseeker {
+        background: #fff;
+        color: #4facfe;
+        border: none;
+        border-radius: 50px;
+        padding: 0.75rem 2rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-edit-jobseeker:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        background: #f8f9fa;
+        color: #00f2fe;
+    }
+
+    /* Main Profile Card */
+    .jobseeker-main {
+        animation: fadeInRight 0.8s ease-out;
+    }
+
+    .jobseeker-main .card-body {
+        padding: 2.5rem;
+    }
+
+    .jobseeker-profile-header {
+        background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+        padding: 1.5rem 2.5rem;
+        border-radius: 25px 25px 0 0;
+        margin: -2.5rem -2.5rem 2rem -2.5rem;
+    }
+
+    .jobseeker-profile-header h4 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+    }
+
+    .jobseeker-profile-header i {
+        font-size: 1.5rem;
+    }
+
+    /* Information Rows */
+    .jobseeker-info-row {
+        padding: 1.25rem 0;
+        border-bottom: 1px solid #f1f3f5;
+        transition: all 0.3s ease;
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    .jobseeker-info-row:last-child {
+        border-bottom: none;
+    }
+
+    .jobseeker-info-row:hover {
+        background: linear-gradient(135deg, rgba(79, 172, 254, 0.05) 0%, rgba(0, 242, 254, 0.05) 100%);
+        padding-left: 1rem;
+        border-radius: 10px;
+    }
+
+    .jobseeker-info-label {
+        font-weight: 700;
+        color: #495057;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .jobseeker-info-label i {
+        color: #4facfe;
+        width: 20px;
+        text-align: center;
+    }
+
+    .jobseeker-info-value {
+        color: #212529;
+        font-size: 1rem;
+    }
+
+    .jobseeker-info-value .btn {
+        border-radius: 10px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .jobseeker-info-value .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .jobseeker-profile-wrapper {
+            padding: 2rem 0;
+        }
+
+        .jobseeker-profile-card {
+            border-radius: 20px;
+        }
+
+        .jobseeker-sidebar {
+            padding: 2rem 1rem;
+        }
+
+        .jobseeker-avatar-wrapper {
+            width: 150px;
+            height: 150px;
+        }
+
+        .jobseeker-main .card-body {
+            padding: 1.5rem;
+        }
+
+        .jobseeker-profile-header {
+            padding: 1.25rem 1.5rem;
+            margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+        }
+
+        .jobseeker-profile-header h4 {
+            font-size: 1.5rem;
+        }
+
+        .jobseeker-info-row {
+            padding: 1rem 0;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body text-center">
-                    {% if user.profile_image %}
-                    <img src="{{ user.profile_image.url }}" class="img-fluid rounded-circle mb-3" style="width: 150px;">
-                    {% else %}
-                    <i class="fas fa-user-circle fa-10x text-muted mb-3"></i>
-                    {% endif %}
-                    <h5>{{ profile.full_name }}</h5>
-                    <p class="text-muted">{{ user.email }}</p>
-                    <a href="{% url 'jobseeker_profile_edit' %}" class="btn btn-primary btn-sm">Edit Profile</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Profile Information</h4>
-                    <hr>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><strong>Full Name:</strong></div>
-                        <div class="col-md-8">{{ profile.full_name }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><strong>Email:</strong></div>
-                        <div class="col-md-8">{{ profile.email }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><strong>Phone:</strong></div>
-                        <div class="col-md-8">{{ profile.phone }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><strong>City:</strong></div>
-                        <div class="col-md-8">{{ profile.city }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><strong>Resume:</strong></div>
-                        <div class="col-md-8">
-                            {% if profile.resume %}
-                            <a href="{{ profile.resume.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-download"></i> Download Resume
-                            </a>
+<div class="jobseeker-profile-wrapper">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar Profile Card -->
+            <div class="col-md-4 mb-4">
+                <div class="card jobseeker-profile-card">
+                    <div class="jobseeker-sidebar">
+                        <div class="jobseeker-avatar-wrapper">
+                            {% if user.profile_image %}
+                                <img src="{{ user.profile_image.url }}" alt="{{ profile.full_name }}">
                             {% else %}
-                            <span class="text-muted">No resume uploaded</span>
+                                <i class="fas fa-user-circle"></i>
                             {% endif %}
                         </div>
+                        <h5>{{ profile.full_name }}</h5>
+                        <p class="email">
+                            <i class="fas fa-envelope me-2"></i>{{ user.email }}
+                        </p>
+                        <a href="{% url 'jobseeker_profile_edit' %}" class="btn btn-edit-jobseeker w-100">
+                            <i class="fas fa-edit me-2"></i>Edit Profile
+                        </a>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"><strong>Skills:</strong></div>
-                        <div class="col-md-8">{{ profile.skills|default:"Not specified" }}</div>
+                </div>
+            </div>
+
+            <!-- Main Profile Information -->
+            <div class="col-md-8">
+                <div class="card jobseeker-profile-card jobseeker-main">
+                    <div class="card-body">
+                        <div class="jobseeker-profile-header">
+                            <h4>
+                                <i class="fas fa-user-circle me-2"></i>Profile Information
+                            </h4>
+                        </div>
+                        
+                        <div class="jobseeker-info-row row">
+                            <div class="col-md-4 jobseeker-info-label">
+                                <i class="fas fa-user"></i>
+                                <span>Full Name:</span>
+                            </div>
+                            <div class="col-md-8 jobseeker-info-value">{{ profile.full_name }}</div>
+                        </div>
+                        
+                        <div class="jobseeker-info-row row">
+                            <div class="col-md-4 jobseeker-info-label">
+                                <i class="fas fa-envelope"></i>
+                                <span>Email:</span>
+                            </div>
+                            <div class="col-md-8 jobseeker-info-value">{{ profile.email }}</div>
+                        </div>
+                        
+                        <div class="jobseeker-info-row row">
+                            <div class="col-md-4 jobseeker-info-label">
+                                <i class="fas fa-phone"></i>
+                                <span>Phone:</span>
+                            </div>
+                            <div class="col-md-8 jobseeker-info-value">{{ profile.phone }}</div>
+                        </div>
+                        
+                        <div class="jobseeker-info-row row">
+                            <div class="col-md-4 jobseeker-info-label">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>City:</span>
+                            </div>
+                            <div class="col-md-8 jobseeker-info-value">{{ profile.city }}</div>
+                        </div>
+                        
+                        <div class="jobseeker-info-row row">
+                            <div class="col-md-4 jobseeker-info-label">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Resume:</span>
+                            </div>
+                            <div class="col-md-8 jobseeker-info-value">
+                                {% if profile.resume %}
+                                    <a href="{{ profile.resume.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-download me-1"></i> Download Resume
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">No resume uploaded</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="jobseeker-info-row row">
+                            <div class="col-md-4 jobseeker-info-label">
+                                <i class="fas fa-tools"></i>
+                                <span>Skills:</span>
+                            </div>
+                            <div class="col-md-8 jobseeker-info-value">
+                                {{ profile.skills|default:"<span class='text-muted'>Not specified</span>" }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
