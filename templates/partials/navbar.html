@@ -31,6 +31,9 @@
                         </li>
                     {% elif user.user_type == 'jobseeker' %}
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'jobseeker_dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'my_applications' %}">My Applications</a>
                         </li>
                         <li class="nav-item">
@@ -45,6 +48,19 @@
                             <i class="fas fa-user"></i> {{ user.username }}
                         </a>
                         <ul class="dropdown-menu">
+                            {% if user.user_type == 'jobseeker' %}
+                                <li><a class="dropdown-item" href="{% url 'jobseeker_dashboard' %}">
+                                    <i class="fas fa-home me-2"></i>Dashboard
+                                </a></li>
+                            {% elif user.user_type == 'company' %}
+                                <li><a class="dropdown-item" href="{% url 'company_dashboard' %}">
+                                    <i class="fas fa-building me-2"></i>Dashboard
+                                </a></li>
+                            {% elif user.user_type == 'admin' %}
+                                <li><a class="dropdown-item" href="{% url 'admin_dashboard' %}">
+                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                                </a></li>
+                            {% endif %}
                             <li><a class="dropdown-item" href="{% url 'logout' %}">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a></li>

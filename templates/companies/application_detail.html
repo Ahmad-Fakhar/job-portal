@@ -1,1 +1,70 @@
- 
+{% extends 'base.html' %}
+{% block title %}Application Detail{% endblock %}
+{% block content %}
+<div class="dashboard-container d-flex">
+    <div class="sidebar">
+        {% include 'partials/sidebar.html' %}
+    </div>
+    <div class="dashboard-content flex-grow-1 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-0"><i class="fas fa-user-check me-2 text-primary"></i>Application Detail</h2>
+                <small class="text-muted">{{ job.title }}</small>
+            </div>
+            <a href="{% url 'company_applications' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back
+            </a>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3">Applicant Info</h5>
+                        <p class="mb-1"><strong>Name:</strong> {{ applicant.get_full_name|default:applicant.username }}</p>
+                        <p class="mb-1"><strong>Email:</strong> {{ applicant.email }}</p>
+                        <p class="mb-1"><strong>Phone:</strong> {{ profile.phone }}</p>
+                        <p class="mb-3"><strong>City:</strong> {{ profile.city }}</p>
+                        <a class="btn btn-sm btn-outline-primary" href="{{ application.resume_url.url }}" target="_blank">
+                            <i class="fas fa-file-pdf me-1"></i>Resume
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3">Cover Letter</h5>
+                        <p class="mb-0">{{ application.cover_letter|linebreaks }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3">Update Status</h5>
+                        <form method="post" action="{% url 'application_update_status' application.id %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select name="status" class="form-select">
+                                    {% for value,label in application.STATUS_CHOICES %}
+                                        <option value="{{ value }}" {% if application.status == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Notes</label>
+                                <textarea name="notes" class="form-control" rows="3" placeholder="Internal notes...">{{ application.notes }}</textarea>
+                            </div>
+                            <button class="btn btn-primary w-100" type="submit">
+                                <i class="fas fa-save me-1"></i>Save
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

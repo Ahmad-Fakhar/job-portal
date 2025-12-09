@@ -18,6 +18,8 @@ def user_login(request):
             return redirect('admin_dashboard')
         elif request.user.user_type == 'company':
             return redirect('company_dashboard')
+        elif request.user.user_type == 'jobseeker':
+            return redirect('jobseeker_dashboard')
         else:
             return redirect('home')
     
@@ -27,7 +29,17 @@ def user_login(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             remember_me = form.cleaned_data.get('remember_me')
-            user = authenticate(username=username, password=password)
+            
+            # Allow login via username or email
+            user_lookup = username
+            if '@' in username:
+                try:
+                    from .models import User
+                    user_lookup = User.objects.get(email=username).username
+                except User.DoesNotExist:
+                    user_lookup = username
+
+            user = authenticate(username=user_lookup, password=password)
 
             if user is not None:
                 login(request, user)
@@ -45,8 +57,9 @@ def user_login(request):
                     return redirect('admin_dashboard')
                 elif user.user_type == 'company':
                     return redirect('company_dashboard')
+                elif user.user_type == 'jobseeker':
+                    return redirect('jobseeker_dashboard')
                 else:
-                    # Redirect to next parameter or home
                     next_url = request.GET.get('next', 'home')
                     return redirect(next_url)
             else:

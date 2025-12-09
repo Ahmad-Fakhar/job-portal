@@ -36,6 +36,27 @@ def home(request):
     return render(request, 'home.html', context)
 
 
+@login_required
+@jobseeker_required
+def jobseeker_dashboard(request):
+    """Job seeker dashboard with quick stats"""
+    applications = Application.objects.filter(user=request.user)
+    saved = SavedJob.objects.filter(user=request.user)
+
+    context = {
+        'applications_count': applications.count(),
+        'applications_pending': applications.filter(status='applied').count(),
+        'saved_count': saved.count(),
+        'recent_applications': applications.select_related('job', 'company')[:5],
+        'recommended_jobs': Job.objects.filter(
+            is_active=True,
+            is_published=True,
+            company__status='approved'
+        ).order_by('-created_at')[:5],
+    }
+    return render(request, 'jobs/jobseeker_dashboard.html', context)
+
+
 def job_list(request):
     """Job listing page with search and filters"""
     jobs = Job.objects.filter(

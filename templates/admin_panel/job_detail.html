@@ -1,1 +1,95 @@
- 
+{% extends 'base.html' %}
+{% block title %}Job Detail - Admin{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-0"><i class="fas fa-briefcase me-2 text-primary"></i>{{ job.title }}</h2>
+            <small class="text-muted">{{ job.company.name }}</small>
+        </div>
+        <div class="btn-group">
+            <form method="post" action="{% url 'admin_job_deactivate' job.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-warning"><i class="fas fa-toggle-on me-1"></i>Toggle</button>
+            </form>
+            <a class="btn btn-outline-danger" href="{% url 'admin_job_delete' job.id %}">
+                <i class="fas fa-trash me-1"></i>Delete
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Company</p>
+                    <h5 class="fw-bold mb-0">{{ job.company.name }}</h5>
+                    <small>{{ job.company.city }}, {{ job.company.state }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Status</p>
+                    <span class="badge {% if job.is_active %}bg-success{% else %}bg-secondary{% endif %}">
+                        {% if job.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Applications</p>
+                    <h3 class="fw-bold">{{ total_applications }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <h5 class="fw-bold">Description</h5>
+            <p>{{ job.description|linebreaks }}</p>
+            <h6 class="fw-bold">Requirements</h6>
+            <p>{{ job.requirements|linebreaks }}</p>
+            <h6 class="fw-bold">Responsibilities</h6>
+            <p>{{ job.responsibilities|linebreaks }}</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0">Applications</h5>
+                <span class="badge bg-info">{{ applications|length }}</span>
+            </div>
+            {% if applications %}
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Status</th>
+                            <th>Applied</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                        <tr>
+                            <td>{{ application.user.get_full_name|default:application.user.username }}</td>
+                            <td><span class="badge bg-secondary">{{ application.get_status_display }}</span></td>
+                            <td>{{ application.applied_at|date:"M d, Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="mb-0 text-muted">No applications yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

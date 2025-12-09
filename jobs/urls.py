@@ -15,6 +15,7 @@ urlpatterns = [
     # Job Application
     path('jobs/<uuid:pk>/apply/', views.job_apply, name='job_apply'),
     path('my-applications/', views.my_applications, name='my_applications'),
+    path('dashboard/jobseeker/', views.jobseeker_dashboard, name='jobseeker_dashboard'),
     
     # Saved Jobs
     path('saved-jobs/', views.saved_jobs, name='saved_jobs'),
